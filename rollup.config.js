@@ -1,8 +1,6 @@
 import path from 'path'
 import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import { uglify } from 'rollup-plugin-uglify'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 
 const root = process.platform === 'win32' ? path.resolve('/') : '/'
@@ -88,11 +86,7 @@ function createCjs(entry, out) {
 
 export default [
   ...createConfig('targets/web', 'web'),
-  ...createConfig('targets/native', 'native'),
-  ...createConfig('targets/universal', 'universal'),
-  ...createConfig('targets/konva', 'konva'),
-  ...createConfig('targets/three', 'three'),
-  ...createConfig('targets/zdog', 'zdog'),
+  ...createConfig('targets/remax', 'remax'),
   {
     input: `./src/targets/cookbook/index`,
     output: { file: `dist/cookbook.js`, format: 'esm' },
@@ -109,7 +103,4 @@ export default [
   },
   ...createCjs('renderprops/targets/web', 'renderprops'),
   ...createCjs('renderprops/addons', 'renderprops-addons'),
-  ...createCjs('renderprops/targets/native', 'renderprops-native'),
-  ...createCjs('renderprops/targets/universal', 'renderprops-universal'),
-  ...createCjs('renderprops/targets/konva', 'renderprops-konva'),
 ]

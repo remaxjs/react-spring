@@ -1,4 +1,5 @@
 import { MutableRefObject, Ref, useCallback, useState } from 'react'
+import kebabcase from 'lodash.kebabcase'
 
 export const is = {
   arr: Array.isArray,
@@ -35,6 +36,40 @@ export function merge(target: any, lowercase: boolean = true) {
           ? element[0].toLowerCase() + element.substring(1)
           : element
         acc[key] = target(key)
+        return acc
+      },
+      target
+    )
+}
+
+export function webMerge(target: any) {
+  return (object: object) =>
+    (is.arr(object) ? object : Object.keys(object)).reduce(
+      (acc: any, element) => {
+        let key = ''
+
+        switch (element) {
+          case 'View':
+            key = 'div'
+            break
+          case 'Text':
+            key = 'span'
+            break
+        }
+
+        acc[element] = target(key)
+        return acc
+      },
+      target
+    )
+}
+
+export function remaxMerge(target: any) {
+  return (object: object) =>
+    (is.arr(object) ? object : Object.keys(object)).reduce(
+      (acc: any, element) => {
+        const key = kebabcase(element)
+        acc[element] = target(key)
         return acc
       },
       target

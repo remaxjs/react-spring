@@ -21,9 +21,13 @@ export function injectColorNames(names: typeof colorNames) {
 }
 
 export let requestFrame: typeof window.requestAnimationFrame = cb =>
-  typeof window !== 'undefined' ? window.requestAnimationFrame(cb) : -1
+  typeof window !== 'undefined'
+    ? window.requestAnimationFrame(cb)
+    : setTimeout(cb)
 export let cancelFrame: typeof window.cancelAnimationFrame = id => {
-  typeof window !== 'undefined' && window.cancelAnimationFrame(id)
+  typeof window !== 'undefined'
+    ? window.cancelAnimationFrame(id)
+    : clearTimeout(id)
 }
 export function injectFrame(raf: typeof requestFrame, caf: typeof cancelFrame) {
   requestFrame = raf
